@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="TaskFlow — A modern, elegant, and responsive to-do list app with task editing, priorities, progress tracking, and offline persistence.">
+  <meta name="theme-color" content="#0f172a">
+  <title>TaskFlow — Modern To-Do & Task Manager</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <main class="app" id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">TaskFlow</h1>
+          <p class="app-subtitle" id="current-date">Stay organized & productive</p>
+        </div>
+      </div>
+      
+      <!-- Theme Switcher -->
+      <button id="themeToggle" class="icon-btn theme-toggle" title="Toggle Theme" aria-label="Toggle dark/light theme">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Progress Card -->
+    <section class="progress-card" aria-label="Task progress">
+      <div class="progress-header">
+        <span class="progress-title">Overall Progress</span>
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBarContainer">
+        <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+      </div>
+      <div class="progress-stats">
+        <span id="completedRatio">0 of 0 tasks completed</span>
+        <span id="streakBadge" class="streak-badge">⚡ Keep going!</span>
+      </div>
+    </section>
+
+    <!-- Add Task Card -->
+    <section class="add-section" aria-label="Add new task">
+      <form class="add-form" id="addForm" onsubmit="return false;">
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <input 
+            id="input" 
+            type="text" 
+            placeholder="What needs to be done?" 
+            maxlength="140" 
+            autocomplete="off"
+            aria-label="New task input"
+          >
+          <span class="kbd-hint" aria-hidden="true">↵ Enter</span>
+        </div>
+
+        <div class="add-options">
+          <div class="priority-selector" role="radiogroup" aria-label="Task priority">
+            <label class="priority-label priority-low" title="Low Priority">
+              <input type="radio" name="priority" value="low">
+              <span>Low</span>
+            </label>
+            <label class="priority-label priority-medium" title="Medium Priority">
+              <input type="radio" name="priority" value="medium" checked>
+              <span>Medium</span>
+            </label>
+            <label class="priority-label priority-high" title="High Priority">
+              <input type="radio" name="priority" value="high">
+              <span>High</span>
+            </label>
+          </div>
+
+          <button id="addBtn" type="button" class="btn btn-primary" aria-label="Add task button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Task</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Filters & Search Toolbar -->
+    <div class="toolbar">
+      <div class="filter-tabs" role="tablist" aria-label="Task filters">
+        <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">
+          All <span class="badge" id="badgeAll">0</span>
+        </button>
+        <button class="filter-tab" data-filter="active" role="tab" aria-selected="false">
+          Active <span class="badge" id="badgeActive">0</span>
+        </button>
+        <button class="filter-tab" data-filter="completed" role="tab" aria-selected="false">
+          Done <span class="badge" id="badgeCompleted">0</span>
+        </button>
+      </div>
+
+      <!-- Search Input Toggle -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input id="searchInput" type="text" placeholder="Search tasks..." aria-label="Search tasks">
+        <button id="clearSearchBtn" class="clear-search-btn" title="Clear search" aria-label="Clear search" style="display: none;">✕</button>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <ul id="list" class="task-list" aria-label="To-do list items"></ul>
+
+    <!-- Footer Summary & Actions -->
+    <footer class="app-footer">
+      <div class="footer-info">
+        <span id="count" class="task-counter">0 tasks left</span>
+      </div>
+      <div class="footer-actions">
+        <button id="clearBtn" class="btn btn-ghost danger-text" title="Remove all completed tasks" aria-label="Clear completed tasks">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Clear completed</span>
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Confetti Canvas for Celebrations -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
